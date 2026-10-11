@@ -44,4 +44,4 @@ Email	Must end with @gmail.com
 Password	Minimum 6 characters
 How to Run
 Clone the repository
-git clone https://github.com/your-username/registration-form.git
+git clone https://github.com/BarathMS2001/JavaScript-Registartion--Form.git
