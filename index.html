@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Registration Form</title>
+
+<style>
+    td{
+        font-size:20px;
+    }
+
+    input{
+        height:25px;
+        width:80%;
+        font-size:14px;
+    }
+
+    .error{
+        color:red;
+        font-size:12px;
+        display:block;
+        margin-top:3px;
+    }
+
+    .success{
+        color:green;
+        font-size:16px;
+        font-weight:bold;
+    }
+</style>
+</head>
+
+<body style="padding:0;margin:0;overflow-y:hidden;">
+
+<div class="image" style="position:relative;z-index:1;">
+    
+    <img style="width:1537px" src="./images/finalimage.jpg">
+
+    <div style="text-align:center;position:absolute;z-index:2;top:15%;left:40%;background-color:whitesmoke;padding:10px;">
+
+        <h1>REGISTRATION FORM</h1>
+
+        <table style="border:solid black 1px;padding:10px;margin:auto;width:400px;height:300px">
+
+            <tr>
+                <td><label>Name:</label></td>
+                <td>
+                    <input type="text" class="name">
+                    <span id="nameError" class="error"></span>
+                </td>
+            </tr>
+
+            <tr>
+                <td><label>Email:</label></td>
+                <td>
+                    <input type="email" class="email">
+                    <span id="emailError" class="error"></span>
+                </td>
+            </tr>
+
+            <tr>
+                <td><label>Password:</label></td>
+                <td>
+                    <input type="password" class="pwd">
+                    <span id="pwdError" class="error"></span>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="2">
+                    <button
+                        id="submitbtn"
+                        type="submit"
+                        disabled
+                        style="width:100%;background-color:gray;color:white;font-size:20px;">
+                        Submit
+                    </button>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="2">
+                    <span id="successMsg" class="success"></span>
+                </td>
+            </tr>
+
+        </table>
+
+    </div>
+</div>
+
+
+<script>
+
+let nameInput = document.querySelector(".name");
+let emailInput = document.querySelector(".email");
+let passwordInput = document.querySelector(".pwd");
+let submitBtn = document.getElementById("submitbtn");
+
+let nameValid = false;
+let emailValid = false;
+let passwordValid = false;
+
+// Name Validation
+nameInput.addEventListener("blur", function(){
+
+    let name = nameInput.value.trim();
+
+    if(name === ""){
+        document.getElementById("nameError").textContent =
+        "Name is required";
+        nameValid = false;
+    }
+    else if(/\d/.test(name) || /[!"$%^&*]/.test(name)){
+        document.getElementById("nameError").textContent =
+        "Name should contain only letters";
+        nameValid = false;
+    }
+    else{
+        document.getElementById("nameError").textContent = "";
+        nameValid = true;
+    }
+
+    enableButton();
+});
+
+// Email Validation
+emailInput.addEventListener("blur", function(){
+
+    let email = emailInput.value.trim();
+
+    if(email === ""){
+        document.getElementById("emailError").textContent =
+        "Email is required";
+        emailValid = false;
+    }
+    else if(!email.endsWith("@gmail.com")){
+        document.getElementById("emailError").textContent =
+        "Email must end with @gmail.com";
+        emailValid = false;
+    }
+    else{
+        document.getElementById("emailError").textContent = "";
+        emailValid = true;
+    }
+
+    enableButton();
+});
+
+// Password Validation
+passwordInput.addEventListener("blur", function(){
+
+    let password = passwordInput.value.trim();
+
+    if(password === ""){
+        document.getElementById("pwdError").textContent =
+        "Password is required";
+        passwordValid = false;
+    }
+    else if(password.length < 6){
+        document.getElementById("pwdError").textContent =
+        "Password must be at least 6 characters";
+        passwordValid = false;
+    }
+    else{
+        document.getElementById("pwdError").textContent = "";
+        passwordValid = true;
+    }
+
+    enableButton();
+});
+
+// Enable Button Only When All Fields Are Valid
+function enableButton(){
+
+    if(nameValid && emailValid && passwordValid){
+        submitBtn.disabled = false;
+        submitBtn.style.backgroundColor = "black";
+        submitBtn.style.cursor = "pointer";
+    }
+    else{
+        submitBtn.disabled = true;
+        submitBtn.style.backgroundColor = "gray";
+        submitBtn.style.cursor = "not-allowed";
+    }
+}
+
+// Submit
+submitBtn.addEventListener("click", function(){
+
+    document.getElementById("successMsg").textContent =
+    "You have successfully registered!";
+    
+     // Clear input fields
+    nameInput.value = "";
+    emailInput.value = "";
+    passwordInput.value = "";
+
+    // Clear error messages
+    document.getElementById("nameError").textContent = "";
+    document.getElementById("emailError").textContent = "";
+    document.getElementById("pwdError").textContent = "";
+
+    // Reset validation variables
+    nameValid = false;
+    emailValid = false;
+    passwordValid = false;
+
+    // Disable submit button again
+    submitBtn.disabled = true;
+    submitBtn.style.backgroundColor = "gray";
+    submitBtn.style.cursor = "not-allowed";
+});
+
+nameInput.addEventListener("focus", clearSuccess);
+emailInput.addEventListener("focus", clearSuccess);
+passwordInput.addEventListener("focus", clearSuccess);
+
+function clearSuccess() {
+    document.getElementById("successMsg").textContent = "";
+}
+
+</script>
+</body>
+</html>
